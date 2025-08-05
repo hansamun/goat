@@ -134,8 +134,8 @@ export default function Component() {
       <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4 mb-6 md:mb-8 px-4">
         {[
           { label: "BUY", action: () => {} },
-          { label: "TG", action: () => {} },
-          { label: "X", action: () => {} },
+          { label: "TG", action: () => window.open("https://t.me/paulthegoat", "_blank") },
+          { label: "X", action: () => window.open("https://x.com/PaulTheGoat_", "_blank") },
           { label: "DEX", action: () => {} },
           { label: "ABOUT", action: () => handleNavigation("about") },
           { label: "TOKENOMIC", action: () => handleNavigation("tokenomics") },
