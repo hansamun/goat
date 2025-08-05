@@ -1,7 +1,5 @@
 "use client"
 
-import type React from "react"
-
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -11,11 +9,6 @@ export default function Component() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [backgroundColor, setBackgroundColor] = useState("from-blue-600 to-blue-700")
   const [currentPage, setCurrentPage] = useState("home") // home, about, tokenomics, memes
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [currentTime, setCurrentTime] = useState(0)
-  const [duration, setDuration] = useState(0)
-  const [volume, setVolume] = useState(0.7)
-  const [audioRef, setAudioRef] = useState<HTMLAudioElement | null>(null)
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -125,87 +118,6 @@ export default function Component() {
     setCurrentPage(page)
   }
 
-  const initializeAudio = () => {
-    if (!audioRef) {
-      const audio = new Audio(
-        "https://jwolkiasgvkwmuqgqjmz.supabase.co/storage/v1/object/sign/song/song.mp3?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV80YTY1YjE2ZC0yZGU5LTQ5ZjMtOGMwMi1lYzQ0ZmIwNjJhMmMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJzb25nL3NvbmcubXAzIiwiaWF0IjoxNzUzOTczOTc4LCJleHAiOjE3ODU1MDk5Nzh9.s4mbXeMigHAAK_qfJMd9or3hUBEuG_Y0e20V5CaxyvY",
-      )
-      audio.crossOrigin = "anonymous"
-      audio.volume = volume
-      audio.preload = "metadata"
-
-      audio.addEventListener("loadedmetadata", () => {
-        setDuration(audio.duration)
-        console.log("Audio loaded successfully, duration:", audio.duration)
-      })
-
-      audio.addEventListener("timeupdate", () => {
-        setCurrentTime(audio.currentTime)
-      })
-
-      audio.addEventListener("ended", () => {
-        setIsPlaying(false)
-        setCurrentTime(0)
-      })
-
-      audio.addEventListener("error", (e) => {
-        console.error("Audio loading error:", e)
-        console.error("Audio error details:", audio.error)
-      })
-
-      audio.addEventListener("canplay", () => {
-        console.log("Audio can start playing")
-      })
-
-      setAudioRef(audio)
-      return audio
-    }
-    return audioRef
-  }
-
-  const togglePlayPause = () => {
-    const audio = initializeAudio()
-    if (isPlaying) {
-      audio.pause()
-      setIsPlaying(false)
-    } else {
-      audio
-        .play()
-        .then(() => {
-          setIsPlaying(true)
-          console.log("Audio started playing successfully")
-        })
-        .catch((error) => {
-          console.error("Error playing audio:", error)
-          setIsPlaying(false)
-        })
-    }
-  }
-
-  const handleProgressChange = (e: React.MouseEvent<HTMLDivElement>) => {
-    const audio = initializeAudio()
-    const rect = e.currentTarget.getBoundingClientRect()
-    const clickX = e.clientX - rect.left
-    const newTime = (clickX / rect.width) * duration
-    audio.currentTime = newTime
-    setCurrentTime(newTime)
-  }
-
-  const handleVolumeChange = (e: React.MouseEvent<HTMLDivElement>) => {
-    const audio = initializeAudio()
-    const rect = e.currentTarget.getBoundingClientRect()
-    const clickX = e.clientX - rect.left
-    const newVolume = clickX / rect.width
-    audio.volume = newVolume
-    setVolume(newVolume)
-  }
-
-  const formatTime = (time: number) => {
-    const minutes = Math.floor(time / 60)
-    const seconds = Math.floor(time % 60)
-    return `${minutes}:${seconds.toString().padStart(2, "0")}`
-  }
-
   const renderHomePage = () => (
     <div className="flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 md:px-8 relative z-10">
       {/* Logo */}
@@ -239,7 +151,6 @@ export default function Component() {
           { label: "ABOUT", action: () => handleNavigation("about") },
           { label: "TOKENOMIC", action: () => handleNavigation("tokenomics") },
           { label: "MEMES", action: () => handleNavigation("memes") },
-          { label: "MUSIC", action: () => handleNavigation("music") },
         ].map((item) => (
           <Button
             key={item.label}
@@ -498,156 +409,6 @@ export default function Component() {
     </div>
   )
 
-  const renderMusicPage = () => (
-    <div className="min-h-screen px-4 py-8 relative z-10">
-      {/* Back Button */}
-      <Button
-        onClick={() => handleNavigation("home")}
-        className="fixed top-4 right-4 md:top-6 md:right-6 z-20 bg-white/20 hover:bg-white/30 text-white border-2 border-white/50 backdrop-blur-sm text-sm md:text-base px-3 py-2 md:px-4 md:py-2"
-      >
-        <ArrowLeft className="w-3 h-3 md:w-4 md:h-4 mr-1 md:mr-2" />
-        <span className="hidden sm:inline">Back to Home</span>
-        <span className="sm:hidden">Back</span>
-      </Button>
-
-      <div className="max-w-4xl mx-auto flex items-center justify-center min-h-screen">
-        <div className="text-center w-full">
-          {/* Music Header */}
-          <h1
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-white mb-8 md:mb-12 tracking-wider drop-shadow-lg px-4"
-            style={{
-              fontFamily: "Fredoka One, cursive",
-              textShadow: "2px 2px 0px #1E40AF, 4px 4px 0px #1E3A8A",
-            }}
-          >
-            PAUL THE GOAT BEATS
-          </h1>
-
-          {/* Music Player Card */}
-          <Card className="bg-white/10 backdrop-blur-md border-white/20 max-w-2xl mx-auto mx-4">
-            <CardContent className="p-6 md:p-8">
-              {/* Song Title */}
-              <h2
-                className="text-3xl md:text-4xl font-bold text-white mb-1"
-                style={{ fontFamily: "Fredoka One, cursive" }}
-              >
-                LEGENDARY VIBES
-              </h2>
-              <p className="text-white/80 text-lg mb-8" style={{ fontFamily: "Poppins, sans-serif" }}>
-                PAUL THE GOAT OFFICIAL
-              </p>
-
-              {/* Album Art Section */}
-              <div className="flex items-center justify-center mb-8">
-                {/* Album Art with blue dog and headphones */}
-                <div className="w-48 h-48 md:w-56 md:h-56 bg-gray-200 rounded-2xl overflow-hidden border-4 border-white/30 shadow-2xl relative flex items-center justify-center">
-                  <img
-                    src="/music-dog-headphones.jpeg"
-                    alt="Blue Dog with Headphones"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
-
-              {/* Player Controls */}
-              <div className="flex items-center justify-center gap-4 mb-8">
-                <Button
-                  className="w-12 h-12 rounded-full bg-white/30 hover:bg-white/40 border-0 text-white"
-                  size="icon"
-                  onClick={() => {
-                    const audio = initializeAudio()
-                    audio.currentTime = 0
-                    setCurrentTime(0)
-                  }}
-                >
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M6 6h2v12H6zm3.5 6l8.5 6V6h-4z" />
-                  </svg>
-                </Button>
-
-                <Button
-                  className="w-16 h-16 rounded-full bg-yellow-400 hover:bg-yellow-500 text-black shadow-lg transform hover:scale-105 transition-all border-0"
-                  size="icon"
-                  onClick={togglePlayPause}
-                >
-                  {isPlaying ? (
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
-                    </svg>
-                  ) : (
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  )}
-                </Button>
-
-                <Button
-                  className="w-12 h-12 rounded-full bg-white/30 hover:bg-white/40 border-0 text-white"
-                  size="icon"
-                  onClick={() => {
-                    const audio = initializeAudio()
-                    audio.currentTime = Math.min(audio.currentTime + 10, duration)
-                  }}
-                >
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
-                  </svg>
-                </Button>
-              </div>
-
-              {/* Progress Bar */}
-              <div className="mb-6">
-                <div className="flex items-center gap-3 mb-2">
-                  <span className="text-white text-sm font-medium">{formatTime(currentTime)}</span>
-                  <div
-                    className="flex-1 bg-white/30 rounded-full h-1.5 relative cursor-pointer"
-                    onClick={handleProgressChange}
-                  >
-                    <div
-                      className="bg-white h-1.5 rounded-full relative transition-all duration-100"
-                      style={{ width: `${duration > 0 ? (currentTime / duration) * 100 : 0}%` }}
-                    >
-                      <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-lg"></div>
-                    </div>
-                  </div>
-                  <span className="text-white text-sm font-medium">{formatTime(duration)}</span>
-                </div>
-              </div>
-
-              {/* Volume Control */}
-              <div className="flex items-center gap-3 mb-6">
-                <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z" />
-                </svg>
-                <div
-                  className="flex-1 bg-white/30 rounded-full h-1.5 relative cursor-pointer"
-                  onClick={handleVolumeChange}
-                >
-                  <div
-                    className="bg-white h-1.5 rounded-full relative transition-all duration-100"
-                    style={{ width: `${volume * 100}%` }}
-                  >
-                    <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-lg"></div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Now Playing Status */}
-              <div className="text-center">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 text-white/90 transition-all">
-                  <div
-                    className={`w-2 h-2 rounded-full ${isPlaying ? "bg-green-400 animate-pulse" : "bg-white/70"}`}
-                  ></div>
-                  <span className="text-sm font-medium">{isPlaying ? "Now Playing" : "Paused"}</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    </div>
-  )
-
   return (
     <div
       className={`min-h-screen bg-gradient-to-b ${backgroundColor} relative overflow-hidden custom-cursor transition-all duration-1000 ease-in-out`}
@@ -695,7 +456,6 @@ export default function Component() {
         {currentPage === "about" && renderAboutPage()}
         {currentPage === "tokenomics" && renderTokenomicsPage()}
         {currentPage === "memes" && renderMemesPage()}
-        {currentPage === "music" && renderMusicPage()}
       </div>
 
       {/* Custom Cursor Styles */}
