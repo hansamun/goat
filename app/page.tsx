@@ -78,35 +78,21 @@ export default function Component() {
   ]
 
   const memes = [
-    { id: 1, src: "/memes/meme1.jpeg", title: "Legendary Goat" },
-    { id: 2, src: "/memes/meme2.jpeg", title: "Champion Goat" },
-    { id: 3, src: "/memes/meme3.jpeg", title: "GOAT Mode" },
-    { id: 4, src: "/memes/meme4.jpeg", title: "Space GOAT" },
-    { id: 5, src: "/memes/meme5.jpeg", title: "Astronaut GOAT" },
-    { id: 6, src: "/memes/meme6.jpeg", title: "Rich GOAT" },
-    { id: 7, src: "/memes/meme7.jpeg", title: "Super GOAT" },
-    { id: 8, src: "/memes/meme8.jpeg", title: "Green Candle GOAT" },
-    { id: 9, src: "/memes/meme9.jpeg", title: "Bull Market GOAT" },
-    { id: 10, src: "/memes/meme10.jpeg", title: "Street GOAT" },
     {
       id: 11,
       src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_6093852341942994278_x.jpg-ZboyvGp6PJVP2OcIfyUGaGdbrhY4r6.jpeg",
-      title: "UFO GOAT",
     },
     {
       id: 12,
       src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_6093852341942994281_y.jpg-t3G4a6uw7RmYCx1Vxc86O2xOYd8vwx.jpeg",
-      title: "Chart Climbing GOAT",
     },
     {
       id: 13,
       src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_6093852341942994279_y.jpg-No6MOcZQhb6PKwKvzR3Z7hQcG33rom.jpeg",
-      title: "Money Bag GOAT",
     },
     {
       id: 14,
       src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_6093852341942994282_y.jpg-6fFrmbpdB8Sp7dXKGxQ4TcfaP2IqBh.jpeg",
-      title: "Super Strong GOAT",
     },
   ]
 
@@ -381,29 +367,40 @@ export default function Component() {
         </div>
 
         {/* Memes Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 max-w-4xl mx-auto">
           {memes.map((meme) => (
             <Card
               key={meme.id}
               className="bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/20 transition-all duration-300 transform hover:scale-105 cursor-pointer group"
             >
               <CardContent className="p-3 md:p-4">
-                <div className="aspect-square relative overflow-hidden rounded-lg mb-3">
+                <div className="aspect-square relative overflow-hidden rounded-lg">
                   <img
                     src={meme.src || "/placeholder.svg"}
-                    alt={meme.title}
+                    alt="PAUL THE GOAT Meme"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   />
                 </div>
-                <h3
-                  className="text-white text-sm md:text-base font-semibold text-center"
-                  style={{ fontFamily: "Poppins, sans-serif" }}
-                >
-                  {meme.title}
-                </h3>
               </CardContent>
             </Card>
           ))}
+        </div>
+
+        {/* Walking Character Animation */}
+        <div className="fixed bottom-20 left-0 w-full h-20 pointer-events-none z-30">
+          <div className="relative w-full h-full overflow-hidden">
+            <div className="absolute bottom-0 animate-walk-across">
+              <img
+                src="/paul-goat-mascot.png"
+                alt="Walking PAUL THE GOAT"
+                className="w-16 h-16 md:w-20 md:h-20 animate-bounce"
+                style={{
+                  filter: "drop-shadow(2px 2px 4px rgba(0,0,0,0.3))",
+                  transform: "scaleX(-1)", // Flip horizontally to face right
+                }}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -492,6 +489,27 @@ export default function Component() {
         }
         .animate-sway {
           animation: sway ease-in-out infinite;
+        }
+
+        @keyframes walk-across {
+          0% { 
+            transform: translateX(-100px); 
+            opacity: 1;
+          }
+          85% { 
+            opacity: 1;
+          }
+          95% { 
+            opacity: 0;
+          }
+          100% { 
+            transform: translateX(calc(100vw + 100px)); 
+            opacity: 0;
+          }
+        }
+        
+        .animate-walk-across {
+          animation: walk-across 8s linear infinite;
         }
       `}</style>
     </div>
