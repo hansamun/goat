@@ -120,8 +120,11 @@ export default function Component() {
           </span>
         </h1>
         <p
-          className="text-blue-600 text-base sm:text-lg md:text-xl lg:text-2xl font-medium tracking-widest px-4"
-          style={{ fontFamily: "Poppins, sans-serif" }}
+          className="text-white text-base sm:text-lg md:text-xl lg:text-2xl font-bold tracking-widest px-4 drop-shadow-lg"
+          style={{
+            fontFamily: "Poppins, sans-serif",
+            textShadow: "2px 2px 4px rgba(0,0,0,0.5), 0 0 10px rgba(255,255,255,0.3)",
+          }}
         >
           THE GREATEST OF ALL TIME
         </p>
