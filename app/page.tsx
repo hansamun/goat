@@ -133,10 +133,17 @@ export default function Component() {
       {/* Navigation Buttons */}
       <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4 mb-6 md:mb-8 px-4">
         {[
-          { label: "BUY", action: () => {} },
+          {
+            label: "BUY",
+            action: () => window.open("https://ape.store/base/0x292758edebe7cbd7693ff8beaef9c794b3999dcc", "_blank"),
+          },
           { label: "TG", action: () => window.open("https://t.me/paulthegoat", "_blank") },
           { label: "X", action: () => window.open("https://x.com/PaulTheGoat_", "_blank") },
-          { label: "DEX", action: () => {} },
+          {
+            label: "DEX",
+            action: () =>
+              window.open("https://dexscreener.com/base/0x011513aAC117c256Fbe21a9d570eE088768f1564", "_blank"),
+          },
           { label: "ABOUT", action: () => handleNavigation("about") },
           { label: "TOKENOMIC", action: () => handleNavigation("tokenomics") },
           { label: "MEMES", action: () => handleNavigation("memes") },
