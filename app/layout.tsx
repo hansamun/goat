@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description:
     "PAUL THE GOAT is the ultimate meme cryptocurrency built on the Base Network. Join the legend and experience the greatest of all time.",
   icons: {
-    icon: "/favicon.ico",
+    icon: "/favicon.jpg",
   },
   generator: "v0.dev",
 }
@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/favicon.jpg" sizes="any" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link

@@ -380,22 +380,6 @@ export default function Component() {
             </div>
           ))}
         </div>
-
-        {/* Walking Character Animation */}
-        <div className="fixed bottom-20 left-0 w-full h-20 pointer-events-none z-30">
-          <div className="relative w-full h-full overflow-hidden">
-            <div className="absolute bottom-0 animate-walk-right-to-left">
-              <img
-                src="/paul-goat-mascot.png"
-                alt="Walking PAUL THE GOAT"
-                className="w-20 h-20 md:w-24 md:h-24 animate-bounce"
-                style={{
-                  filter: "drop-shadow(2px 2px 4px rgba(0,0,0,0.3))",
-                }}
-              />
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   )
@@ -483,33 +467,6 @@ export default function Component() {
         }
         .animate-sway {
           animation: sway ease-in-out infinite;
-        }
-
-        @keyframes walk-right-to-left {
-          0% { 
-            transform: translateX(calc(100vw + 100px)); 
-            opacity: 1;
-          }
-          15% { 
-            opacity: 1;
-          }
-          25% { 
-            opacity: 0;
-          }
-          75% { 
-            opacity: 0;
-          }
-          85% { 
-            opacity: 1;
-          }
-          100% { 
-            transform: translateX(-100px); 
-            opacity: 1;
-          }
-        }
-
-        .animate-walk-right-to-left {
-          animation: walk-right-to-left 8s linear infinite;
         }
       `}</style>
     </div>
