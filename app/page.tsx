@@ -369,34 +369,28 @@ export default function Component() {
         {/* Memes Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 max-w-4xl mx-auto">
           {memes.map((meme) => (
-            <Card
-              key={meme.id}
-              className="bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/20 transition-all duration-300 transform hover:scale-105 cursor-pointer group"
-            >
-              <CardContent className="p-3 md:p-4">
-                <div className="aspect-square relative overflow-hidden rounded-lg">
-                  <img
-                    src={meme.src || "/placeholder.svg"}
-                    alt="PAUL THE GOAT Meme"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                  />
-                </div>
-              </CardContent>
-            </Card>
+            <div key={meme.id} className="hover:scale-105 transition-all duration-300 transform cursor-pointer group">
+              <div className="aspect-square relative overflow-hidden rounded-lg">
+                <img
+                  src={meme.src || "/placeholder.svg"}
+                  alt="PAUL THE GOAT Meme"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300 rounded-lg shadow-lg"
+                />
+              </div>
+            </div>
           ))}
         </div>
 
         {/* Walking Character Animation */}
         <div className="fixed bottom-20 left-0 w-full h-20 pointer-events-none z-30">
           <div className="relative w-full h-full overflow-hidden">
-            <div className="absolute bottom-0 animate-walk-across">
+            <div className="absolute bottom-0 animate-walk-right-to-left">
               <img
                 src="/paul-goat-mascot.png"
                 alt="Walking PAUL THE GOAT"
-                className="w-16 h-16 md:w-20 md:h-20 animate-bounce"
+                className="w-20 h-20 md:w-24 md:h-24 animate-bounce"
                 style={{
                   filter: "drop-shadow(2px 2px 4px rgba(0,0,0,0.3))",
-                  transform: "scaleX(-1)", // Flip horizontally to face right
                 }}
               />
             </div>
@@ -491,25 +485,31 @@ export default function Component() {
           animation: sway ease-in-out infinite;
         }
 
-        @keyframes walk-across {
+        @keyframes walk-right-to-left {
           0% { 
-            transform: translateX(-100px); 
+            transform: translateX(calc(100vw + 100px)); 
             opacity: 1;
+          }
+          15% { 
+            opacity: 1;
+          }
+          25% { 
+            opacity: 0;
+          }
+          75% { 
+            opacity: 0;
           }
           85% { 
             opacity: 1;
           }
-          95% { 
-            opacity: 0;
-          }
           100% { 
-            transform: translateX(calc(100vw + 100px)); 
-            opacity: 0;
+            transform: translateX(-100px); 
+            opacity: 1;
           }
         }
-        
-        .animate-walk-across {
-          animation: walk-across 8s linear infinite;
+
+        .animate-walk-right-to-left {
+          animation: walk-right-to-left 8s linear infinite;
         }
       `}</style>
     </div>
